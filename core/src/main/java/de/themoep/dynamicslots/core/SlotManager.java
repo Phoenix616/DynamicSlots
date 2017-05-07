@@ -60,7 +60,6 @@ public class SlotManager {
             }
         } else if (!"static".equals(type)) {
             plugin.getLogger().log(Level.WARNING, "Unknown source type " + type + "! Plugin will not dynamically calculate slots!");
-            type = "none";
             return false;
         }
         updateSlots();
