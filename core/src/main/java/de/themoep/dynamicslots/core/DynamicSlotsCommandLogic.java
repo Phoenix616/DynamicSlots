@@ -68,7 +68,7 @@ public class DynamicSlotsCommandLogic {
                 plugin.sendMessage(senderId, "&eSlots: &f" + plugin.getManager().getSlots());
                 plugin.sendMessage(senderId, "&eManual: &f" + plugin.getManager().isManual());
                 if (plugin.getManager().getSource() == null) {
-                    plugin.sendMessage(senderId, "&eSource: &cNot initialized!");
+                    plugin.sendMessage(senderId, "&eSource: &cStatic");
                 } else {
                     plugin.sendMessage(senderId, "&eSource: &f" + plugin.getManager().getSource().getClass().getSimpleName().replace("Source", ""));
                     plugin.sendMessage(senderId, "&eQuery: &f" + plugin.getManager().getSource().getQuery());
