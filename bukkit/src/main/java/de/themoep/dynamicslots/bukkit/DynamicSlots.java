@@ -56,6 +56,11 @@ public final class DynamicSlots extends JavaPlugin implements DynamicSlotsPlugin
     }
 
     @Override
+    public int getPlayerCount() {
+        return getServer().getOnlinePlayers().size();
+    }
+
+    @Override
     public void onDisable() {
         if (!isEnabled())
             return;

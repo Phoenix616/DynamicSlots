@@ -16,6 +16,7 @@ package de.themoep.dynamicslots.core;
  */
 
 import de.themoep.dynamicslots.core.sources.FileSource;
+import de.themoep.dynamicslots.core.sources.MoreSource;
 import de.themoep.dynamicslots.core.sources.MySQLSource;
 import de.themoep.dynamicslots.core.sources.SlotSource;
 import de.themoep.dynamicslots.core.sources.StaticSource;
@@ -29,6 +30,7 @@ public class SlotManager {
     private final DynamicSlotsPlugin plugin;
     private SlotSource fallbackSource;
     private SlotSource source = null;
+    private SlotSource moreSource;
     private int slots = -1;
     private long lastUpdate = 0;
     private int cacheDuration = 60;
@@ -40,6 +42,7 @@ public class SlotManager {
     public boolean setupSource() {
         disableSource();
         fallbackSource = new StaticSource(plugin);
+        moreSource = new MoreSource(plugin);
         cacheDuration = (int) plugin.getSetting("cache-duration");
         String type = ((String) plugin.getSetting("source.type")).toLowerCase();
         if ("mysql".equals(type)) {
@@ -101,6 +104,9 @@ public class SlotManager {
             updateSlots();
         }
 
+        if (slots <= plugin.getPlayerCount() && moreSource.getSlots() != 0) {
+            return moreSource.getSlots();
+        }
         return slots;
     }
 

@@ -22,6 +22,11 @@ cache-duration: 300
 # Slot count used when static source is used or no dynamic slot count was found
 # Setting slots to -1 will cause it to display the real slot count in that case
 static-slots: 100
+# Amount of slots to add when the online count is the same or above the count that would be displayed
+# Use 0 to disable this feature completely
+# Negative values will substract from the real playercount
+# (Why you would ever do that is beyond me but you can if you want!)
+add-when-full: 1
 # The source where we want to get the slots from
 source:
   # Possible types include mysql, file, static and url
