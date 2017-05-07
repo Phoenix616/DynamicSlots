@@ -1,0 +1,28 @@
+name: ${minecraft.plugin.name}
+version: '${minecraft.plugin.version}'
+main: de.themoep.dynamicslots.bungee.DynamicSlots
+author: Phoenix616
+softDepends: [UUIDDB]
+commands:
+   dynamicslots:
+      aliases: [dynamicslot, ds]
+      description: Plugin command description.
+      usage: /<command> [info|set|reset|reload]
+      permission: dynamicslots.command
+      permission-message: You don't have the permission <permission>
+permissions:
+   dynamicslots.command:
+      description: Gives permission to the plugin command
+      default: false
+   dynamicslots.command.reload:
+      description: Gives permission to reload the plugin
+      default: false
+   dynamicslots.command.info:
+      description: Gives permission to see the current setting
+      default: false
+   dynamicslots.command.set:
+      description: Gives permission to set the count
+      default: false
+   dynamicslots.command.reset:
+      description: Gives permission to reset the count to the setting
+      default: false
