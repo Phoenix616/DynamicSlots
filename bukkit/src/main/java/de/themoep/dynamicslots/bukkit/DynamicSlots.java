@@ -3,6 +3,7 @@ package de.themoep.dynamicslots.bukkit;
 import de.themoep.dynamicslots.core.DynamicSlotsPlugin;
 import de.themoep.dynamicslots.core.SlotManager;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -85,6 +86,7 @@ public final class DynamicSlots extends JavaPlugin implements DynamicSlotsPlugin
 
     @Override
     public void sendMessage(UUID playerId, String message) {
+        message = ChatColor.translateAlternateColorCodes('&', message);
         if (playerId != null) {
             Player player = getServer().getPlayer(playerId);
             if (player != null) {

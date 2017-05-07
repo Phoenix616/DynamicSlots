@@ -4,6 +4,7 @@ import de.themoep.bungeeplugin.BungeePlugin;
 import de.themoep.dynamicslots.core.DynamicSlotsPlugin;
 import de.themoep.dynamicslots.core.SlotManager;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -92,7 +93,7 @@ public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlug
 
     @Override
     public void sendMessage(UUID playerId, String message) {
-        sendMessage(playerId, TextComponent.fromLegacyText(message));
+        sendMessage(playerId, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message)));
     }
 
     private void sendMessage(UUID playerId, BaseComponent[] message) {
