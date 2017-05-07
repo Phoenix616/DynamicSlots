@@ -37,7 +37,9 @@ public abstract class SlotSource {
         }
     }
 
-    public abstract void disable();
+    public void disable() {
+
+    }
 
     /**
      * Get the amount of slots that should be displayed

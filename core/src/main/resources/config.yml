@@ -1,9 +1,12 @@
 # How long to cache the results of the source's query for
 cache-duration: 300
+# Slot count used when static source is used or no dynamic slot count was found
+# Setting slots to -1 will cause it to display the real slot count in that case
+static-slots: 100
 # The source where we want to get the slots from
 source:
-  # Possible types include mysql, file and url
-  type: mysql
+  # Possible types include mysql, file, static and url
+  type: static
   # The mysql query, file path or web url
   query: 'select COUNT(*) as count from `lb-players` WHERE lastlogin > DATE_ADD(NOW(), INTERVAL -1 DAY) AND onlinetime > 60'
   # The regex pattern to try to get the count from when the query returns a string

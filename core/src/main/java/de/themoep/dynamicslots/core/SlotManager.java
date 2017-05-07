@@ -18,6 +18,7 @@ package de.themoep.dynamicslots.core;
 import de.themoep.dynamicslots.core.storage.FileSource;
 import de.themoep.dynamicslots.core.storage.MySQLSource;
 import de.themoep.dynamicslots.core.storage.SlotSource;
+import de.themoep.dynamicslots.core.storage.StaticSource;
 import de.themoep.dynamicslots.core.storage.UrlSource;
 
 import java.net.MalformedURLException;
@@ -26,9 +27,11 @@ import java.util.logging.Level;
 
 public class SlotManager {
     private final DynamicSlotsPlugin plugin;
+    private SlotSource fallbackSource;
     private SlotSource source = null;
     private int slots = -1;
     private long lastUpdate = 0;
+    private int cacheDuration = 60;
 
     public SlotManager(DynamicSlotsPlugin plugin) {
         this.plugin = plugin;
@@ -36,6 +39,8 @@ public class SlotManager {
 
     public boolean setupSource() {
         disableSource();
+        fallbackSource = new StaticSource(plugin);
+        cacheDuration = (int) plugin.getSetting("cache-duration");
         String type = ((String) plugin.getSetting("source.type")).toLowerCase();
         if ("mysql".equals(type)) {
             try {
@@ -54,6 +59,8 @@ public class SlotManager {
             } catch (MalformedURLException e) {
                 plugin.getLogger().log(Level.SEVERE, "Error while initializing UrlSource! Plugin will not dynamically calculate slots!", e);
             }
+        } else if ("static".equals(type)) {
+            return true;
         } else {
             plugin.getLogger().log(Level.WARNING, "Unknown source type " + type + "! Plugin will not dynamically calculate slots!");
             type = "none";
@@ -81,14 +88,18 @@ public class SlotManager {
     }
 
     public void updateSlots() {
-        plugin.runAsync(() -> {
-            slots = source.getSlots();
-            lastUpdate = System.currentTimeMillis();
-        });
+        lastUpdate = System.currentTimeMillis();
+        if (source == null) {
+            slots = fallbackSource.getSlots();
+        } else {
+            plugin.runAsync(() -> {
+                slots = source.getSlots();
+            });
+        }
     }
 
     public int getSlots() {
-        if (lastUpdate > -1 && lastUpdate + (int) plugin.getSetting("cache-duration") * 1000 < System.currentTimeMillis()) {
+        if (source != null && lastUpdate > -1 && lastUpdate + cacheDuration * 1000 < System.currentTimeMillis()) {
             updateSlots();
         }
 
