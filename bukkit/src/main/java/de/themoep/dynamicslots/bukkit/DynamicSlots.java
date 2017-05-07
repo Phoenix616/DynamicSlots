@@ -70,7 +70,12 @@ public final class DynamicSlots extends JavaPlugin implements DynamicSlotsPlugin
 
     @Override
     public int runAsync(Runnable runnable) {
-        return getServer().getScheduler().runTaskAsynchronously(this, runnable).getTaskId();
+        if (getServer().isPrimaryThread()) {
+            return getServer().getScheduler().runTaskAsynchronously(this, runnable).getTaskId();
+        } else {
+            runnable.run();
+            return -1;
+        }
     }
 
     @Override
