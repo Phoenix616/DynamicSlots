@@ -24,6 +24,12 @@
         </dependency>
         <dependency>
             <groupId>de.themoep</groupId>
+            <artifactId>dynamicslots-bukkit</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.themoep</groupId>
             <artifactId>dynamicslots-bungee</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

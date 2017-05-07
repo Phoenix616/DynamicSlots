@@ -1,6 +1,6 @@
 name: ${minecraft.plugin.name}
 version: '${minecraft.plugin.version}'
-main: de.themoep.dynamicslots.bungee.DynamicSlots
+main: de.themoep.dynamicslots.bukkit.DynamicSlots
 author: Phoenix616
 commands:
    dynamicslots:

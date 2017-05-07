@@ -1,16 +1,12 @@
-package de.themoep.dynamicslots.bungee;
+package de.themoep.dynamicslots.bukkit;
 
-import de.themoep.bungeeplugin.BungeePlugin;
 import de.themoep.dynamicslots.core.DynamicSlotsPlugin;
 import de.themoep.dynamicslots.core.SlotManager;
 
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
 import java.util.UUID;
-import java.util.logging.Level;
 
 /*
  * Copyright 2017 Max Lee (https://github.com/Phoenix616/)
@@ -28,35 +24,26 @@ import java.util.logging.Level;
  * along with this program. If not, see <http://mozilla.org/MPL/2.0/>.
  */
 
-public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlugin {
+public final class DynamicSlots extends JavaPlugin implements DynamicSlotsPlugin {
 
     private SlotManager manager;
 
     @Override
     public void onEnable() {
         manager = new SlotManager(this);
-        if (loadConfig()) {
-            getProxy().getPluginManager().registerListener(this, new PlayerListener(this));
-
-            registerCommand("dynamicslots", DynamicSlotsCommand.class);
-        }
+        loadConfig();
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        getCommand("dynamicslots").setExecutor(new DynamicSlotsCommand(this));
     }
 
     public boolean loadConfig() {
-        try {
-            if (!getConfig().loadConfig()) {
-                return false;
-            }
-        } catch (IOException e) {
-            getLogger().log(Level.SEVERE, "Error while loading config", e);
-            return false;
-        }
+        reloadConfig();
         return manager.setupSource();
     }
 
     @Override
     public UUID getPlayerId(String playerName) {
-        ProxiedPlayer player = getProxy().getPlayer(playerName);
+        Player player = getServer().getPlayer(playerName);
         if (player != null) {
             return player.getUniqueId();
         }
@@ -65,7 +52,7 @@ public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlug
 
     @Override
     public Object getSetting(String key) {
-        return getConfig().getConfiguration().get(key);
+        return getConfig().get(key);
     }
 
     @Override
@@ -83,29 +70,25 @@ public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlug
 
     @Override
     public int runAsync(Runnable runnable) {
-        return getProxy().getScheduler().runAsync(this, runnable).getId();
+        return getServer().getScheduler().runTaskAsynchronously(this, runnable).getTaskId();
     }
 
     @Override
     public void sendMessage(UUID playerId, String message) {
-        sendMessage(playerId, TextComponent.fromLegacyText(message));
-    }
-
-    private void sendMessage(UUID playerId, BaseComponent[] message) {
         if (playerId != null) {
-            ProxiedPlayer player = getProxy().getPlayer(playerId);
+            Player player = getServer().getPlayer(playerId);
             if (player != null) {
                 player.sendMessage(message);
             }
         } else {
-            getProxy().getConsole().sendMessage(message);
+            getServer().getConsoleSender().sendMessage(message);
         }
     }
 
     @Override
     public boolean hasPermission(UUID playerId, String permission) {
         if (playerId != null) {
-            ProxiedPlayer player = getProxy().getPlayer(playerId);
+            Player player = getServer().getPlayer(playerId);
             if (player != null) {
                 return player.hasPermission(permission);
             }
