@@ -15,11 +15,11 @@ package de.themoep.dynamicslots.core;
  * along with this program. If not, see <http://mozilla.org/MPL/2.0/>.
  */
 
-import de.themoep.dynamicslots.core.storage.FileSource;
-import de.themoep.dynamicslots.core.storage.MySQLSource;
-import de.themoep.dynamicslots.core.storage.SlotSource;
-import de.themoep.dynamicslots.core.storage.StaticSource;
-import de.themoep.dynamicslots.core.storage.UrlSource;
+import de.themoep.dynamicslots.core.sources.FileSource;
+import de.themoep.dynamicslots.core.sources.MySQLSource;
+import de.themoep.dynamicslots.core.sources.SlotSource;
+import de.themoep.dynamicslots.core.sources.StaticSource;
+import de.themoep.dynamicslots.core.sources.UrlSource;
 
 import java.net.MalformedURLException;
 import java.sql.SQLException;

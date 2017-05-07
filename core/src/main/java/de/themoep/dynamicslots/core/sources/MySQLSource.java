@@ -1,4 +1,4 @@
-package de.themoep.dynamicslots.core.storage;
+package de.themoep.dynamicslots.core.sources;
 /*
  * Copyright 2017 Max Lee (https://github.com/Phoenix616/)
  * 
