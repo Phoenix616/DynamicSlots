@@ -30,10 +30,11 @@ public class SlotManager {
     private final DynamicSlotsPlugin plugin;
     private SlotSource fallbackSource;
     private SlotSource source = null;
-    private SlotSource moreSource;
+    private MoreSource moreSource;
     private int slots = -1;
     private long lastUpdate = 0;
     private int cacheDuration = 60;
+    private int maxSlots = Integer.MAX_VALUE;
 
     public SlotManager(DynamicSlotsPlugin plugin) {
         this.plugin = plugin;
@@ -44,6 +45,7 @@ public class SlotManager {
         fallbackSource = new StaticSource(plugin);
         moreSource = new MoreSource(plugin);
         cacheDuration = (int) plugin.getSetting("cache-duration");
+        maxSlots = (int) plugin.getSetting("max-slots");
         String type = ((String) plugin.getSetting("source.type")).toLowerCase();
         if ("mysql".equals(type)) {
             try {
@@ -104,8 +106,12 @@ public class SlotManager {
             updateSlots();
         }
 
+        int slots = this.slots;
         if (slots <= plugin.getPlayerCount() && moreSource.getSlots() != 0) {
-            return moreSource.getSlots();
+            slots = moreSource.getSlots();
+        }
+        if (maxSlots > -1 && slots > maxSlots) {
+            slots = maxSlots;
         }
         return slots;
     }
@@ -116,5 +122,13 @@ public class SlotManager {
 
     public SlotSource getSource() {
         return source;
+    }
+
+    public MoreSource getMoreSource() {
+        return moreSource;
+    }
+
+    public int getMaxSlots() {
+        return maxSlots;
     }
 }

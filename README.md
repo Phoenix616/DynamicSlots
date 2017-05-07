@@ -22,6 +22,8 @@ cache-duration: 300
 # Slot count used when static source is used or no dynamic slot count was found
 # Setting slots to -1 will cause it to display the real slot count in that case
 static-slots: 100
+# Max amount of slots that should be displayed
+max-slots: 10000
 # Amount of slots to add when the online count is the same or above the count that would be displayed
 # Use 0 to disable this feature completely
 # Negative values will substract from the real playercount
