@@ -32,4 +32,8 @@ public class MoreSource extends SlotSource {
         }
         return plugin.getPlayerCount() + add;
     }
+
+    public int getAdd() {
+        return add;
+    }
 }
