@@ -81,8 +81,10 @@ public class SlotManager {
     }
 
     public void updateSlots() {
-        slots = source.getSlots();
-        lastUpdate = System.currentTimeMillis();
+        plugin.runAsync(() -> {
+            slots = source.getSlots();
+            lastUpdate = System.currentTimeMillis();
+        });
     }
 
     public int getSlots() {
