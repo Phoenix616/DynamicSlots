@@ -7,8 +7,6 @@ import de.themoep.dynamicslots.core.DynamicSlotsPlugin;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.util.UUID;
-
 /*
  * Copyright 2017 Max Lee (https://github.com/Phoenix616/)
  *
@@ -31,6 +29,6 @@ public class DynamicSlotsCommand extends PluginCommand {
 
     @Override
     protected boolean run(CommandSender sender, String[] args) {
-        return DynamicSlotsCommandLogic.execute((DynamicSlotsPlugin) plugin, sender instanceof ProxiedPlayer ? ((ProxiedPlayer) sender).getUniqueId() : (UUID) null, args);
+        return DynamicSlotsCommandLogic.execute((DynamicSlotsPlugin) plugin, sender instanceof ProxiedPlayer ? ((ProxiedPlayer) sender).getUniqueId() : null, args);
     }
 }

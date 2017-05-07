@@ -6,8 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 /*
  * Copyright 2017 Max Lee (https://github.com/Phoenix616/)
  *
@@ -32,6 +30,6 @@ public class DynamicSlotsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        return DynamicSlotsCommandLogic.execute(plugin, sender instanceof Player ? ((Player) sender).getUniqueId() : (UUID) null, args);
+        return DynamicSlotsCommandLogic.execute(plugin, sender instanceof Player ? ((Player) sender).getUniqueId() : null, args);
     }
 }
