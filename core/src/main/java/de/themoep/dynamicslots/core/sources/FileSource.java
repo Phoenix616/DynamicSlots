@@ -20,25 +20,24 @@ import de.themoep.dynamicslots.core.DynamicSlotsPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.logging.Level;
 
 public class FileSource extends SlotSource {
-    private final File file;
+    private final Path path;
 
     public FileSource(DynamicSlotsPlugin plugin) {
         super(plugin);
-        file = new File(getQuery());
+        path = new File(getQuery()).toPath();
     }
 
     @Override
     public int getSlots() {
-        if (file.exists() && file.isFile() && file.canRead()) {
-            try {
-                String s = new String(Files.readAllBytes(file.toPath()));
-                return parseString(s);
-            } catch (IOException e) {
-                plugin.getLogger().log(Level.SEVERE, "Error while getting slots from file!", e);
-            }
+        try {
+            String s = new String(Files.readAllBytes(path));
+            return parseString(s);
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Error while getting slots from file!", e);
         }
         return -1;
     }
