@@ -45,27 +45,26 @@ public class SlotManager {
         if ("mysql".equals(type)) {
             try {
                 source = new MySQLSource(plugin);
-                return true;
             } catch (SQLException e) {
                 plugin.getLogger().log(Level.SEVERE, "Error while initializing MySQLSource! Plugin will not dynamically calculate slots!", e);
+                return false;
             }
         } else if ("file".equals(type)) {
             source = new FileSource(plugin);
-            return true;
         } else if ("url".equals(type)) {
             try {
                 source = new UrlSource(plugin);
-                return true;
             } catch (MalformedURLException e) {
                 plugin.getLogger().log(Level.SEVERE, "Error while initializing UrlSource! Plugin will not dynamically calculate slots!", e);
+                return false;
             }
-        } else if ("static".equals(type)) {
-            return true;
-        } else {
+        } else if (!"static".equals(type)) {
             plugin.getLogger().log(Level.WARNING, "Unknown source type " + type + "! Plugin will not dynamically calculate slots!");
             type = "none";
+            return false;
         }
-        return false;
+        updateSlots();
+        return true;
     }
 
     public void disable() {
