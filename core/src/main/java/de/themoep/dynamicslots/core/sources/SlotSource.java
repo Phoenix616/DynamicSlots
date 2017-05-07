@@ -59,10 +59,9 @@ public abstract class SlotSource {
     protected String applyRegex(String s) {
         if (pattern != null) {
             Matcher m = pattern.matcher(s);
-            if (!m.matches()) {
-                return s;
+            if (m.find()) {
+                s = m.group(1);
             }
-            s = m.group(1);
         }
         return s;
     }
