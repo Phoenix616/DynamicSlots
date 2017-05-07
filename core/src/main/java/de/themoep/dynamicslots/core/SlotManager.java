@@ -131,4 +131,8 @@ public class SlotManager {
     public int getMaxSlots() {
         return maxSlots;
     }
+
+    public int getCacheDuration() {
+        return cacheDuration;
+    }
 }
