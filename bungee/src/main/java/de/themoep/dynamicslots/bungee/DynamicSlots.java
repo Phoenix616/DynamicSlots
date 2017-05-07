@@ -35,11 +35,10 @@ public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlug
     @Override
     public void onEnable() {
         manager = new SlotManager(this);
-        if (loadConfig()) {
-            getProxy().getPluginManager().registerListener(this, new PlayerListener(this));
+        loadConfig();
+        getProxy().getPluginManager().registerListener(this, new PlayerListener(this));
 
-            registerCommand("dynamicslots", DynamicSlotsCommand.class);
-        }
+        registerCommand("dynamicslots", DynamicSlotsCommand.class);
     }
 
     public boolean loadConfig() {
