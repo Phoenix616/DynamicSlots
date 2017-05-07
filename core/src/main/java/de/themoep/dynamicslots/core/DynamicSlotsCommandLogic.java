@@ -34,7 +34,7 @@ public class DynamicSlotsCommandLogic {
                 return false;
             }
 
-            if (plugin.hasPermission(senderId, "dynamicslots.command." + args[0].toLowerCase())) {
+            if (!plugin.hasPermission(senderId, "dynamicslots.command." + args[0].toLowerCase())) {
                 plugin.sendMessage(senderId, String.format(NO_PERMISSION, "dynamicslots.command." + args[0].toLowerCase()));
                 return true;
             }
