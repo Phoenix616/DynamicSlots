@@ -39,4 +39,6 @@ public interface DynamicSlotsPlugin {
     Object getSetting(String key);
 
     int getPlayerCount();
+
+    int getServerSlots();
 }

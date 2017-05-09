@@ -34,6 +34,7 @@ public class SlotManager {
     private int slots = -1;
     private long lastUpdate = 0;
     private int cacheDuration = 60;
+    private int minSlots = 0;
     private int maxSlots = Integer.MAX_VALUE;
 
     public SlotManager(DynamicSlotsPlugin plugin) {
@@ -45,7 +46,16 @@ public class SlotManager {
         fallbackSource = new StaticSource(plugin);
         moreSource = new MoreSource(plugin);
         cacheDuration = (int) plugin.getSetting("cache-duration");
+        minSlots = (int) plugin.getSetting("min-slots");
+        if (minSlots > plugin.getServerSlots()) {
+            plugin.getLogger().log(Level.WARNING, "Configured minimum slot amount " + minSlots + " is above the server's slot amount of " + plugin.getServerSlots() + "?");
+            minSlots = plugin.getServerSlots();
+        }
         maxSlots = (int) plugin.getSetting("max-slots");
+        if (maxSlots > plugin.getServerSlots()) {
+            plugin.getLogger().log(Level.WARNING, "Configured maximum slot amount " + maxSlots + " is above the server's slot amount of " + plugin.getServerSlots() + "?");
+            maxSlots = plugin.getServerSlots();
+        }
         String type = ((String) plugin.getSetting("source.type")).toLowerCase();
         if ("mysql".equals(type)) {
             try {
@@ -110,7 +120,9 @@ public class SlotManager {
         if (slots <= plugin.getPlayerCount() && moreSource.getSlots() != 0) {
             slots = moreSource.getSlots();
         }
-        if (maxSlots > -1 && slots > maxSlots) {
+        if (slots < minSlots) {
+            slots = minSlots;
+        } else if (maxSlots > -1 && slots > maxSlots) {
             slots = maxSlots;
         }
         return slots;

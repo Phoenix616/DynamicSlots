@@ -74,6 +74,11 @@ public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlug
     }
 
     @Override
+    public int getServerSlots() {
+        return getProxy().getConfig().getPlayerLimit();
+    }
+
+    @Override
     public void onDisable() {
         if (!isEnabled())
             return;
