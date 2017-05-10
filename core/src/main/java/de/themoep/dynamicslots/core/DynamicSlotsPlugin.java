@@ -28,6 +28,8 @@ public interface DynamicSlotsPlugin {
 
     int runAsync(Runnable runnable);
 
+    String addColors(String string);
+
     void sendMessage(UUID playerId, String message);
 
     boolean hasPermission(UUID playerId, String permission);
@@ -40,5 +42,13 @@ public interface DynamicSlotsPlugin {
 
     int getPlayerCount();
 
-    int getServerSlots();
+    int getSlotCount();
+
+    default String getKickMessage(int playerCount, int slotCount) {
+        return addColors(replaceVariables((String) getSetting("full-kick-message"), playerCount, slotCount));
+    }
+
+    default String replaceVariables(String string, int playerCount, int slotCount) {
+        return string.replace("%players%", String.valueOf(playerCount)).replace("%slots%", String.valueOf(slotCount));
+    }
 }

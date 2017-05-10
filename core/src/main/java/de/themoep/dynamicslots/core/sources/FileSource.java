@@ -24,18 +24,17 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 
 public class FileSource extends SlotSource {
-    private final Path path;
 
     public FileSource(DynamicSlotsPlugin plugin) {
         super(plugin);
-        path = new File(getQuery()).toPath();
     }
 
     @Override
-    public int getSlots() {
+    public int getSlots(int playerCount, int slotCount) {
         try {
-            String s = new String(Files.readAllBytes(path));
-            return parseString(s);
+            Path filePath = new File(getQuery(playerCount, slotCount)).toPath();
+            String s = new String(Files.readAllBytes(filePath));
+            return parseString(s, playerCount, slotCount);
         } catch (IOException e) {
             plugin.getLogger().log(Level.SEVERE, "Error while getting slots from file!", e);
         }

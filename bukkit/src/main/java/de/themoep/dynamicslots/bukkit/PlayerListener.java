@@ -18,6 +18,7 @@ package de.themoep.dynamicslots.bukkit;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 public class PlayerListener implements Listener {
@@ -29,9 +30,26 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPing(ServerListPingEvent event) {
-        int slots = plugin.getManager().getSlots();
+        int slots = plugin.getManager().getSlots(event.getNumPlayers(), event.getMaxPlayers());
         if (slots > -1) {
             event.setMaxPlayers(slots);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerLoginEvent event) {
+        if (event.getResult() == PlayerLoginEvent.Result.KICK_FULL) {
+            if (event.getPlayer().hasPermission("dynamicslots.joinfull")) {
+                event.setResult(PlayerLoginEvent.Result.ALLOWED);
+            } else {
+                event.setKickMessage(plugin.getKickMessage(plugin.getPlayerCount(), plugin.getSlotCount()));
+            }
+        } else if (event.getResult() == PlayerLoginEvent.Result.ALLOWED && !event.getPlayer().hasPermission("dynamicslots.joinfull")) {
+            int slots = plugin.getManager().getSlots(plugin.getPlayerCount(), plugin.getSlotCount());
+            if (plugin.getPlayerCount() + 1 >= slots) {
+                event.setResult(PlayerLoginEvent.Result.KICK_FULL);
+                event.setKickMessage(plugin.getKickMessage(plugin.getPlayerCount(), slots));
+            }
         }
     }
 }

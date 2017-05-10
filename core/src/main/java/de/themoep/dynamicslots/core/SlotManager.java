@@ -47,14 +47,14 @@ public class SlotManager {
         moreSource = new MoreSource(plugin);
         cacheDuration = (int) plugin.getSetting("cache-duration");
         minSlots = (int) plugin.getSetting("min-slots");
-        if (minSlots > plugin.getServerSlots()) {
-            plugin.getLogger().log(Level.WARNING, "Configured minimum slot amount " + minSlots + " is above the server's slot amount of " + plugin.getServerSlots() + "?");
-            minSlots = plugin.getServerSlots();
+        if (minSlots > plugin.getSlotCount()) {
+            plugin.getLogger().log(Level.WARNING, "Configured minimum slot amount " + minSlots + " is above the server's slot amount of " + plugin.getSlotCount() + "?");
+            minSlots = plugin.getSlotCount();
         }
         maxSlots = (int) plugin.getSetting("max-slots");
-        if (maxSlots > plugin.getServerSlots()) {
-            plugin.getLogger().log(Level.WARNING, "Configured maximum slot amount " + maxSlots + " is above the server's slot amount of " + plugin.getServerSlots() + "?");
-            maxSlots = plugin.getServerSlots();
+        if (maxSlots > plugin.getSlotCount()) {
+            plugin.getLogger().log(Level.WARNING, "Configured maximum slot amount " + maxSlots + " is above the server's slot amount of " + plugin.getSlotCount() + "?");
+            maxSlots = plugin.getSlotCount();
         }
         String type = ((String) plugin.getSetting("source.type")).toLowerCase();
         if ("mysql".equals(type)) {
@@ -67,17 +67,12 @@ public class SlotManager {
         } else if ("file".equals(type)) {
             source = new FileSource(plugin);
         } else if ("url".equals(type)) {
-            try {
-                source = new UrlSource(plugin);
-            } catch (MalformedURLException e) {
-                plugin.getLogger().log(Level.SEVERE, "Error while initializing UrlSource! Plugin will not dynamically calculate slots!", e);
-                return false;
-            }
+            source = new UrlSource(plugin);
         } else if (!"static".equals(type)) {
             plugin.getLogger().log(Level.WARNING, "Unknown source type " + type + "! Plugin will not dynamically calculate slots!");
             return false;
         }
-        updateSlots();
+        updateSlots(plugin.getPlayerCount(), plugin.getSlotCount());
         return true;
     }
 
@@ -97,30 +92,30 @@ public class SlotManager {
     }
 
     public void resetSlots() {
-        updateSlots();
+        updateSlots(plugin.getPlayerCount(), plugin.getSlotCount());
     }
 
-    public void updateSlots() {
+    public void updateSlots(int playerCount, int slotCount) {
         lastUpdate = System.currentTimeMillis();
         if (source == null) {
-            slots = fallbackSource.getSlots();
+            slots = fallbackSource.getSlots(playerCount, slotCount);
         } else {
             plugin.runAsync(() -> {
-                slots = source.getSlots();
+                slots = source.getSlots(playerCount, slotCount);
             });
         }
     }
 
-    public int getSlots() {
+    public int getSlots(int playerCount, int slotCount) {
         if (source != null && lastUpdate > -1 && lastUpdate + cacheDuration * 1000 < System.currentTimeMillis()) {
-            updateSlots();
+            updateSlots(playerCount, slotCount);
         }
 
         int slots = this.slots;
-        if (slots <= plugin.getPlayerCount() && moreSource.getSlots() != 0) {
-            slots = moreSource.getSlots();
+        if (slots <= playerCount && moreSource.getSlots(playerCount, slotCount) != 0) {
+            slots = moreSource.getSlots(playerCount, slotCount);
         }
-        if (slots < minSlots) {
+        if (slots > 0 && slots < minSlots) {
             slots = minSlots;
         } else if (maxSlots > -1 && slots > maxSlots) {
             slots = maxSlots;

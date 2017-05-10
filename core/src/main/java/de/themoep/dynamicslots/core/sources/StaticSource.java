@@ -26,7 +26,7 @@ public class StaticSource extends SlotSource {
     }
 
     @Override
-    public int getSlots() {
+    public int getSlots(int playerCount, int slotCount) {
         return slots;
     }
 }

@@ -13,11 +13,15 @@ max-slots: 10000
 # Negative values will substract from the real playercount
 # (Why you would ever do that is beyond me but you can if you want!)
 add-when-full: 1
+# The message to use when a player tries to connect to a full server
+# You can use the variables %players% and %slots% in the query to insert the online count and slot count
+full-kick-message: 'Server is full!'
 # The source where we want to get the slots from
 source:
   # Possible types include mysql, file, static and url
   type: static
   # The mysql query, file path or web url
+  # You can use the variables %players% and %slots% in the query to insert the online count and slot count
   query: 'select COUNT(*) as count from `lb-players` WHERE lastlogin > DATE_ADD(NOW(), INTERVAL -1 DAY) AND onlinetime > 60'
   # The regex pattern to try to get the count from when the query returns a string
   regex: ''

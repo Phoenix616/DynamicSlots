@@ -43,13 +43,15 @@ public abstract class SlotSource {
 
     /**
      * Get the amount of slots that should be displayed
-     * @return
+     * @param playerCount   The amount of players that are online
+     * @param slotCount     The amount of slots the server has
+     * @return  The amount of players
      */
-    public abstract int getSlots();
+    public abstract int getSlots(int playerCount, int slotCount);
 
-    protected int parseString(String s) {
+    protected int parseString(String s, int playerCount, int slotCount) {
         try {
-            return Integer.parseInt(applyRegex(s));
+            return Integer.parseInt(applyRegex(plugin.replaceVariables(s, playerCount, slotCount)));
         } catch (NumberFormatException e) {
             plugin.getLogger().log(Level.WARNING, "Could not parse " + s + " as an integer!");
         }
@@ -70,7 +72,12 @@ public abstract class SlotSource {
         return pattern;
     }
 
+    public String getQuery(int playerCount, int slotCount) {
+        return plugin.replaceVariables(getQuery(), playerCount, slotCount);
+    }
+
     public String getQuery() {
         return query;
     }
+
 }

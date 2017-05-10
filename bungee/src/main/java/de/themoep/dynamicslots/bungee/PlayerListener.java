@@ -1,5 +1,6 @@
 package de.themoep.dynamicslots.bungee;
 
+import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -29,9 +30,24 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPing(ProxyPingEvent event) {
-        int slots = plugin.getManager().getSlots();
+        int slots = plugin.getManager().getSlots(event.getResponse().getPlayers().getOnline(), event.getResponse().getPlayers().getMax());
         if (slots > -1) {
             event.getResponse().getPlayers().setMax(slots);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PreLoginEvent event) {
+        if (event.isCancelled()) {
+            if (event.getCancelReason().equals("Server is full!")) {
+                event.setCancelReason(plugin.getKickMessage(plugin.getPlayerCount(), plugin.getSlotCount()));
+            }
+        } else {
+            int slots = plugin.getManager().getSlots(plugin.getPlayerCount(), plugin.getSlotCount());
+            if (plugin.getPlayerCount() + 1 >= slots) {
+                event.setCancelled(true);
+                event.setCancelReason(plugin.getKickMessage(plugin.getPlayerCount(), slots));
+            }
         }
     }
 }

@@ -20,18 +20,14 @@ import de.themoep.dynamicslots.core.DynamicSlotsPlugin;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 
 public class UrlSource extends SlotSource {
-    private final URL url;
 
-    public UrlSource(DynamicSlotsPlugin plugin) throws MalformedURLException {
+    public UrlSource(DynamicSlotsPlugin plugin) {
         super(plugin);
-        url = new URL(getQuery());
     }
-
 
     @Override
     public void disable() {
@@ -39,8 +35,10 @@ public class UrlSource extends SlotSource {
     }
 
     @Override
-    public int getSlots() {
+    public int getSlots(int playerCount, int slotCount) {
+        URL url = null;
         try {
+            url = new URL(getQuery(playerCount, slotCount));
             url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder input = new StringBuilder();
@@ -49,7 +47,7 @@ public class UrlSource extends SlotSource {
                 input.append(inputLine).append("\n");
             }
             in.close();
-            return parseString(input.toString());
+            return parseString(input.toString(), playerCount, slotCount);
         } catch (IOException e) {
             plugin.getLogger().log(Level.SEVERE, "Error while requesting data from " + url + "!", e);
         }

@@ -25,3 +25,6 @@ permissions:
    dynamicslots.command.reset:
       description: Gives permission to reset the count to the setting
       default: false
+   dynamicslots.joinfull:
+      description: Gives permission to join even when the server is full
+      default: op

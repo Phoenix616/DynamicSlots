@@ -65,7 +65,7 @@ public class DynamicSlotsCommandLogic {
                 plugin.sendMessage(senderId, "&eReset slots to configured source!");
 
             } else if  ("info".equalsIgnoreCase(args[0])) {
-                plugin.sendMessage(senderId, "&eSlots: &f" + plugin.getManager().getSlots());
+                plugin.sendMessage(senderId, "&eSlots: &f" + plugin.getManager().getSlots(plugin.getPlayerCount(), plugin.getSlotCount()));
                 plugin.sendMessage(senderId, "&eManual: &f" + plugin.getManager().isManual());
                 if (plugin.getManager().getSource() == null) {
                     plugin.sendMessage(senderId, "&eSource: &cStatic");

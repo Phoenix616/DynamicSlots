@@ -74,7 +74,7 @@ public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlug
     }
 
     @Override
-    public int getServerSlots() {
+    public int getSlotCount() {
         return getProxy().getConfig().getPlayerLimit();
     }
 
@@ -97,8 +97,13 @@ public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlug
     }
 
     @Override
+    public String addColors(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    @Override
     public void sendMessage(UUID playerId, String message) {
-        sendMessage(playerId, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message)));
+        sendMessage(playerId, TextComponent.fromLegacyText(addColors(message)));
     }
 
     private void sendMessage(UUID playerId, BaseComponent[] message) {

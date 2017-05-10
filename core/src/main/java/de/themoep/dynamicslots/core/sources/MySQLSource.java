@@ -55,15 +55,15 @@ public class MySQLSource extends SlotSource {
     }
 
     @Override
-    public int getSlots() {
-        try (Connection conn = getConn(); PreparedStatement sta = conn.prepareStatement(query)) {
+    public int getSlots(int playerCount, int slotCount) {
+        try (Connection conn = getConn(); PreparedStatement sta = conn.prepareStatement(getQuery(playerCount, slotCount))) {
             if (sta.execute()) {
                 ResultSet rs = sta.getResultSet();
                 if (rs.next()) {
                     try {
                         return rs.getInt(1);
                     } catch (SQLException e) { // Not a number
-                        return parseString(rs.getString(1));
+                        return parseString(rs.getString(1), playerCount, slotCount);
                     }
                 }
             }

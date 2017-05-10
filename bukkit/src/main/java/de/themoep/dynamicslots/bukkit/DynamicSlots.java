@@ -62,7 +62,7 @@ public final class DynamicSlots extends JavaPlugin implements DynamicSlotsPlugin
     }
 
     @Override
-    public int getServerSlots() {
+    public int getSlotCount() {
         return getServer().getMaxPlayers();
     }
 
@@ -90,8 +90,13 @@ public final class DynamicSlots extends JavaPlugin implements DynamicSlotsPlugin
     }
 
     @Override
+    public String addColors(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    @Override
     public void sendMessage(UUID playerId, String message) {
-        message = ChatColor.translateAlternateColorCodes('&', message);
+        message = addColors(message);
         if (playerId != null) {
             Player player = getServer().getPlayer(playerId);
             if (player != null) {

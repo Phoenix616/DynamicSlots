@@ -26,11 +26,11 @@ public class MoreSource extends SlotSource {
     }
 
     @Override
-    public int getSlots() {
-        if (add == -1) {
+    public int getSlots(int playerCount, int slotCount) {
+        if (add == 0) {
             return -1;
         }
-        return plugin.getPlayerCount() + add;
+        return playerCount + add;
     }
 
     public int getAdd() {
