@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dynamicslots-bukkit</artifactId>
+    <artifactId>bukkit</artifactId>
     <version>${plugin.version}</version>
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>de.themoep</groupId>
-        <artifactId>dynamicslots-parent</artifactId>
+        <groupId>de.themoep.dynamicslots</groupId>
+        <artifactId>parent</artifactId>
         <version>parent</version>
     </parent>
 
@@ -23,8 +23,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>de.themoep</groupId>
-            <artifactId>dynamicslots-core</artifactId>
+            <groupId>de.themoep.dynamicslots</groupId>
+            <artifactId>core</artifactId>
             <version>${plugin.version}</version>
         </dependency>
         <dependency>
