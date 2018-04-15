@@ -23,10 +23,11 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
  * along with this program. If not, see <http://mozilla.org/MPL/2.0/>.
  */
 public class DynamicSlotsCommand extends PluginCommand {
-    public DynamicSlotsCommand(BungeePlugin plugin, String name, String permission, String permissionMessage, String description, String usage, String... aliases) {
-        super(plugin, name, permission, permissionMessage, description, usage, aliases);
+    
+    public DynamicSlotsCommand(BungeePlugin plugin, String name) {
+        super(plugin, name);
     }
-
+    
     @Override
     protected boolean run(CommandSender sender, String[] args) {
         return DynamicSlotsCommandLogic.execute((DynamicSlotsPlugin) plugin, sender instanceof ProxiedPlayer ? ((ProxiedPlayer) sender).getUniqueId() : null, args);

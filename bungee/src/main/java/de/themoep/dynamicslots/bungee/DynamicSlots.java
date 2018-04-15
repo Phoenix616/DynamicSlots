@@ -39,7 +39,7 @@ public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlug
         loadConfig();
         getProxy().getPluginManager().registerListener(this, new PlayerListener(this));
 
-        registerCommand("dynamicslots", DynamicSlotsCommand.class);
+        getProxy().getPluginManager().registerCommand(this, new DynamicSlotsCommand(this, "dynamicslots"));
     }
 
     public boolean loadConfig() {
