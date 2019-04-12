@@ -44,6 +44,7 @@ public final class DynamicSlots extends BungeePlugin implements DynamicSlotsPlug
 
     public boolean loadConfig() {
         try {
+            getConfig().createDefaultConfig();
             if (!getConfig().loadConfig()) {
                 return false;
             }

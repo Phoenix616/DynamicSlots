@@ -38,6 +38,7 @@ public final class DynamicSlots extends JavaPlugin implements DynamicSlotsPlugin
     }
 
     public boolean loadConfig() {
+        saveDefaultConfig();
         reloadConfig();
         return manager.setupSource();
     }
