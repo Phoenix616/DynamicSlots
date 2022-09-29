@@ -3,7 +3,7 @@ cache-duration: 300
 # Slot count used when static source is used or no dynamic slot count was found
 # Setting slots to -1 will cause it to display the real slot count in that case
 static-slots: 100
-# Mininum amount of slots that should be displayed
+# Minimum amount of slots that should be displayed
 min-slots: 0
 # Maximum amount of slots that should be displayed
 # Will do nothing when set over the actual slot count that the server has
