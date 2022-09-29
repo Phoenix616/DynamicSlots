@@ -47,12 +47,12 @@ public class SlotManager {
         moreSource = new MoreSource(plugin);
         cacheDuration = (int) plugin.getSetting("cache-duration");
         minSlots = (int) plugin.getSetting("min-slots");
-        if (minSlots > plugin.getSlotCount()) {
+        if (plugin.getSlotCount() > -1 && minSlots > plugin.getSlotCount()) {
             plugin.getLogger().log(Level.WARNING, "Configured minimum slot amount " + minSlots + " is above the server's slot amount of " + plugin.getSlotCount() + "?");
             minSlots = plugin.getSlotCount();
         }
         maxSlots = (int) plugin.getSetting("max-slots");
-        if (maxSlots > plugin.getSlotCount()) {
+        if (plugin.getSlotCount() > -1 && maxSlots > plugin.getSlotCount()) {
             plugin.getLogger().log(Level.WARNING, "Configured maximum slot amount " + maxSlots + " is above the server's slot amount of " + plugin.getSlotCount() + "?");
             maxSlots = plugin.getSlotCount();
         }
@@ -133,6 +133,10 @@ public class SlotManager {
 
     public MoreSource getMoreSource() {
         return moreSource;
+    }
+
+    public int getMinSlots() {
+        return minSlots;
     }
 
     public int getMaxSlots() {

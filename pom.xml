@@ -20,7 +20,7 @@
     </modules>
 
     <properties>
-        <plugin.version>1.1-SNAPSHOT</plugin.version>
+        <plugin.version>1.2-SNAPSHOT</plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <minecraft.plugin.name>DynamicSlots</minecraft.plugin.name>
         <minecraft.plugin.version>${plugin.version} ${buildDescription}</minecraft.plugin.version>

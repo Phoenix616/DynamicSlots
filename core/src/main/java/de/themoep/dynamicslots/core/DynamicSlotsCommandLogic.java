@@ -75,6 +75,7 @@ public class DynamicSlotsCommandLogic {
                     plugin.sendMessage(senderId, "&eRegex: &f" + plugin.getManager().getSource().getPattern());
                 }
                 plugin.sendMessage(senderId, "&eAdd when full: &f" + plugin.getManager().getMoreSource().getAdd());
+                plugin.sendMessage(senderId, "&eMin Slots: &f" + plugin.getManager().getMinSlots());
                 plugin.sendMessage(senderId, "&eMax Slots: &f" + plugin.getManager().getMaxSlots());
                 plugin.sendMessage(senderId, "&eCache duration: &f" + plugin.getManager().getCacheDuration() + "s");
 
